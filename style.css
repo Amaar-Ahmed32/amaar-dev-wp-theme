@@ -1,0 +1,286 @@
+/*
+Theme Name: AmaarDev
+Theme URI: https://amaar.site
+Author: Amaar Ahmed
+Author URI: https://amaar.site
+Description: AmaarDev is a portfolio block theme for freelance developers, designers and small studios. A drafting-table aesthetic — Bricolage Grotesque display type, Literata serif body and a subtle blueprint grid — with a project index, a case-study template and three style variations.
+Requires at least: 6.5
+Tested up to: 7.1
+Requires PHP: 7.4
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: amaardev
+Tags: portfolio, blog, one-column, full-site-editing, block-patterns, style-variations, custom-colors, custom-logo, editor-style, featured-images, threaded-comments, translation-ready, wide-blocks
+*/
+
+/* --------------------------------------------------------------------------
+ * Base
+ * -------------------------------------------------------------------------- */
+
+html {
+	scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
+/* Zero the margin between top-level template parts and full-width sections,
+   so stacked full-width bands sit flush against each other. */
+.wp-site-blocks > * + *,
+.amaardev-sections > * + * {
+	margin-block-start: 0;
+}
+
+img {
+	height: auto;
+}
+
+/* Underline links a touch further from the text for the serif body. */
+a {
+	text-underline-offset: 0.18em;
+}
+
+/* --------------------------------------------------------------------------
+ * Focus visibility
+ * -------------------------------------------------------------------------- */
+
+:focus-visible {
+	outline: 3px solid var(--wp--preset--color--accent);
+	outline-offset: 3px;
+}
+
+/* On ink backgrounds the accent outline would disappear, so use signal. */
+.amaardev-contact :focus-visible {
+	outline-color: var(--wp--custom--focus-ring);
+}
+
+/* --------------------------------------------------------------------------
+ * Touch targets: every interactive element is at least 44px
+ * -------------------------------------------------------------------------- */
+
+.wp-element-button {
+	min-height: 44px;
+}
+
+.wp-block-navigation a,
+.wp-block-navigation__responsive-container-open,
+.wp-block-social-link-anchor,
+.wp-block-query-pagination a,
+.wp-block-query-pagination span,
+.wp-block-post-navigation-link a,
+.wp-block-search__button,
+.wp-block-comment-template .comment-reply-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	min-width: 44px;
+}
+
+/* --------------------------------------------------------------------------
+ * Sticky header
+ * -------------------------------------------------------------------------- */
+
+header.wp-block-template-part {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+}
+
+.admin-bar header.wp-block-template-part {
+	top: var(--wp-admin--admin-bar--height, 0);
+}
+
+.amaardev-header {
+	border-bottom: 1px solid var(--wp--custom--rule);
+}
+
+/* --------------------------------------------------------------------------
+ * Hero
+ * -------------------------------------------------------------------------- */
+
+.amaardev-hero {
+	background-image:
+		linear-gradient(var(--wp--custom--grid-line) 1px, transparent 1px),
+		linear-gradient(90deg, var(--wp--custom--grid-line) 1px, transparent 1px);
+	background-size: 56px 56px;
+	border-bottom: 1px solid var(--wp--custom--rule);
+}
+
+.amaardev-hero h1 {
+	text-wrap: balance;
+}
+
+/* One staggered page-load reveal: headline first, then lede and buttons.
+   Transform and opacity only, so there is no layout shift. */
+@keyframes amaardev-reveal {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.amaardev-hero h1 {
+		animation: amaardev-reveal 0.8s ease-out both;
+	}
+
+	.amaardev-hero .amaardev-hero-after {
+		animation: amaardev-reveal 0.8s ease-out 0.18s both;
+	}
+}
+
+/* --------------------------------------------------------------------------
+ * Project index rows
+ * -------------------------------------------------------------------------- */
+
+.amaardev-row {
+	padding-block: var(--wp--preset--spacing--40);
+	border-top: 1px solid var(--wp--custom--rule);
+	gap: 1.5rem;
+}
+
+.wp-block-post-template > li:last-child .amaardev-row {
+	border-bottom: 1px solid var(--wp--custom--rule);
+}
+
+.amaardev-row .wp-block-post-title a {
+	display: inline-block;
+	transition: color 0.2s ease, transform 0.25s ease;
+}
+
+.amaardev-row:hover .wp-block-post-title a {
+	color: var(--wp--preset--color--accent);
+	transform: translateX(0.5rem);
+}
+
+.amaardev-row .wp-block-post-terms a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.amaardev-row .wp-block-post-title a {
+		transition: none;
+	}
+
+	.amaardev-row:hover .wp-block-post-title a {
+		transform: none;
+	}
+}
+
+/* --------------------------------------------------------------------------
+ * Process steps (a true sequence, so counters are appropriate)
+ * -------------------------------------------------------------------------- */
+
+.amaardev-steps {
+	list-style: none;
+	counter-reset: amaardev-step;
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.amaardev-steps > li {
+	position: relative;
+	counter-increment: amaardev-step;
+	padding-left: 3rem;
+	padding-top: var(--wp--preset--spacing--30);
+	border-top: 1px solid var(--wp--custom--rule);
+}
+
+.amaardev-steps > li::before {
+	content: counter(amaardev-step, decimal-leading-zero);
+	position: absolute;
+	left: 0;
+	top: var(--wp--preset--spacing--30);
+	font-family: var(--wp--preset--font-family--display);
+	font-size: var(--wp--preset--font-size--large);
+	font-weight: 700;
+	line-height: 1.1;
+	color: var(--wp--preset--color--accent);
+}
+
+/* --------------------------------------------------------------------------
+ * "Ruled" group block style
+ * -------------------------------------------------------------------------- */
+
+.is-style-ruled {
+	border-top: 1px solid var(--wp--custom--rule);
+	padding-top: var(--wp--preset--spacing--30);
+}
+
+/* --------------------------------------------------------------------------
+ * Buttons: outline style
+ * -------------------------------------------------------------------------- */
+
+.wp-block-button.is-style-outline .wp-block-button__link {
+	background-color: transparent;
+	border: 2px solid currentColor;
+}
+
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+	background-color: var(--wp--preset--color--ink);
+	border-color: var(--wp--preset--color--ink);
+	color: var(--wp--preset--color--base);
+}
+
+/* --------------------------------------------------------------------------
+ * Testimonial quote
+ * -------------------------------------------------------------------------- */
+
+.amaardev-quote {
+	border: none;
+	padding: 0;
+}
+
+.amaardev-quote cite {
+	display: block;
+	font-style: normal;
+	font-size: var(--wp--preset--font-size--small);
+	color: var(--wp--preset--color--muted);
+	margin-top: var(--wp--preset--spacing--30);
+}
+
+/* --------------------------------------------------------------------------
+ * Footer
+ * -------------------------------------------------------------------------- */
+
+.amaardev-footer {
+	border-top: 1px solid var(--wp--custom--rule);
+}
+
+/* Ink icons stay legible in every style variation. */
+.amaardev-footer .wp-block-social-links.is-style-logos-only .wp-social-link svg {
+	fill: var(--wp--preset--color--ink);
+}
+
+/* --------------------------------------------------------------------------
+ * Comments
+ * -------------------------------------------------------------------------- */
+
+.wp-block-comments .wp-block-comment-template {
+	list-style: none;
+	padding-left: 0;
+	margin-left: 0;
+}
+
+.wp-block-comment {
+	margin-bottom: var(--wp--preset--spacing--40);
+}
+
+.wp-block-comment .wp-block-comment-reply-link {
+	margin-top: var(--wp--preset--spacing--30);
+}
+
+.wp-block-comments-pagination {
+	margin-top: var(--wp--preset--spacing--40);
+}
